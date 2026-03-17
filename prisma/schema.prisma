@@ -1,0 +1,84 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           String         @id @default(cuid())
+  clerkId      String         @unique
+  email        String         @unique
+  name         String?
+  plan         Plan           @default(FREE)
+  podcastsUsed Int            @default(0)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  subscription Subscription?
+  podcasts     Podcast[]
+}
+
+model Podcast {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title        String?
+  fileName     String
+  fileUrl      String
+  durationSecs Int?
+  status       Status   @default(PENDING)
+  transcript   String?
+  clips        Clip[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Clip {
+  id         String    @id @default(cuid())
+  podcastId  String
+  podcast    Podcast   @relation(fields: [podcastId], references: [id], onDelete: Cascade)
+  startSec   Float
+  endSec     Float
+  transcript String
+  hook       String?
+  reason     String?
+  videoUrl   String?
+  imageUrl   String?
+  style      ClipStyle @default(VERTICAL)
+  createdAt  DateTime  @default(now())
+}
+
+model Subscription {
+  id               String   @id @default(cuid())
+  userId           String   @unique
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stripeCustomerId String   @unique
+  stripePriceId    String
+  stripeSubId      String   @unique
+  status           String   // active, canceled, past_due
+  currentPeriodEnd DateTime
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+enum Plan {
+  FREE
+  PRO
+}
+
+enum Status {
+  PENDING
+  PROCESSING
+  DONE
+  FAILED
+}
+
+enum ClipStyle {
+  VERTICAL
+  SQUARE
+  HORIZONTAL
+}
