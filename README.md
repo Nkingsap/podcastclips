@@ -16,7 +16,7 @@ PodcastClips is a full-stack SaaS web application that helps podcast creators re
 - **File Storage** — Podcast audio uploads handled through Supabase Storage.
 - **Transactional Email** — Email notifications powered by Resend.
 - **Dashboard** — Manage all your podcasts, view clips, upload new episodes, and handle billing.
-
+- **Coming Soon** — Genrate podscast clips throught youtube or other video links
 ---
 
 ## 🛠️ Tech Stack
