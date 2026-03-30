@@ -248,7 +248,7 @@ DATABASE_URL="postgresql://postgres:yourpassword@localhost:5432/podcastclips"
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/podcastclips.git
+git clone https://github.com/Nkingsap/podcastclips.git
 cd podcastclips
 ```
 
